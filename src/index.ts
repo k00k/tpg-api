@@ -1,7 +1,18 @@
-import { Elysia } from "elysia";
+import { Elysia } from 'elysia'
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+// Instantiate Elysia
+const app = new Elysia()
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+// Routes
+app
+  .get('/', () => 'THIS IS THE API SERVER')
+  .get('/foo/:id', ({ params: { id } }) => console.log(id))
+  .post('/todos', async (req: any) => {
+    console.log(req.body)
+    const outputTxt: string = req.body.todo
+    return `<li>${req.body.todo}</li>`
+  })
+
+// Start server
+app.listen(3000)
+console.log(`🦊 TPG-API is running at http://${app.server?.hostname}:${app.server?.port}`)
